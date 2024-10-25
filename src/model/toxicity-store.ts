@@ -10,10 +10,8 @@ export const useToxicityStore = defineStore('toxicity', () => {
 	const threshold = 0.7;
 	const modelRef = shallowRef<Readonly<ToxicityClassifier>>();
 
-	console.log(`loading model...`);
 	toxicity.load(threshold, toxicLabels).then(model => {
 
-		console.log(`model loaded...`);
 		modelRef.value = Object.freeze(model);
 
 	})
@@ -24,8 +22,7 @@ export const useToxicityStore = defineStore('toxicity', () => {
 
 		/// note: predictions[i].results.probabilities are
 		/// the [0,1] (true/false) (on/off) probabilities for that label
-		const predictions = await modelRef.value.classify([s, "i will kill you"]);
-		console.dir(predictions);
+		const predictions = await modelRef.value.classify([s]);
 
 		for (const p of predictions) {
 			if (p.results[0].match) {
