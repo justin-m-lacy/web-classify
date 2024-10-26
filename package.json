@@ -26,6 +26,7 @@
   },
   "dependencies": {
     "@tailwindcss/forms": "^0.5.9",
+    "@tensorflow-models/mobilenet": "^2.1.1",
     "@tensorflow-models/toxicity": "^1.2.2",
     "@tensorflow/tfjs": "^4.22.0",
     "@vueuse/core": "^11.1.0",
