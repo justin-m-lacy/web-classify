@@ -1,5 +1,6 @@
 import * as mobilenet from '@tensorflow-models/mobilenet';
 import { MobileNet } from '@tensorflow-models/mobilenet';
+import '@tensorflow/tfjs-backend-webgl';
 import { defineStore } from "pinia";
 
 export const useImageStore = defineStore('images', () => {
@@ -8,7 +9,7 @@ export const useImageStore = defineStore('images', () => {
 
 	mobilenet.load({
 		version: 2,
-		alpha: 0.75
+		alpha: 1
 	}).then(model => {
 
 		modelRef.value = Object.freeze(model);
@@ -19,19 +20,18 @@ export const useImageStore = defineStore('images', () => {
 
 		if (modelRef.value == null) return null;
 
-		/// note: predictions[i].results.probabilities are
-		/// the [0,1] (true/false) (on/off) probabilities for that label
-		const predictions = await modelRef.value.classify(s);
+		const predict = await modelRef.value.classify(s);
 
 		let bestIndex = -1;
 		let bestProb = 0;
-		for (let i = predictions.length; i >= 0; i--) {
-			if (predictions[i].probability > bestProb) {
+		for (let i = predict.length - 1; i >= 0; i--) {
+			if (predict[i].probability > bestProb) {
+				bestProb = predict[i].probability;
 				bestIndex = i;
 			}
 		}
 		if (bestIndex >= 0) {
-			return predictions[bestIndex].className;
+			return predict[bestIndex].className;
 		}
 		return null;
 

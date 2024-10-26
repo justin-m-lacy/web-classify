@@ -10,13 +10,24 @@ const previewRef = ref<HTMLImageElement>();
 const loadedImage = ref<string | null>(null);
 const lastResult = ref();
 
+const readerRef = ref<FileReader | null>(null);
+
 const onImageChange = (e: Event) => {
 
 	const file = (e.target as HTMLInputElement).files?.[0];
 	if (!file) return;
 
-	const reader = new FileReader();
+	if (readerRef.value) {
+		readerRef.value.abort();
+		readerRef.value = null;
+	}
+
+	const reader = readerRef.value = new FileReader();
 	reader.onload = function (e) {
+
+		if (readerRef.value === reader) {
+			readerRef.value = null;
+		}
 
 		if (e.target?.result == null) {
 			loadedImage.value = null;
@@ -25,6 +36,12 @@ const onImageChange = (e: Event) => {
 		}
 
 	}
+	reader.onabort = reader.onerror = () => {
+		if (readerRef.value === reader) {
+			readerRef.value = null;
+		}
+	}
+
 	reader.readAsDataURL(file);
 
 }
@@ -44,7 +61,7 @@ const classify = async () => {
 </script>
 <template>
 	<div class="flex w-full min-w-96">
-		<div v-if="!imageStore.loaded">Loading model...</div>
+		<div v-if="!imageStore.loaded">Loading Image model...</div>
 		<div v-else class="flex w-full space-x-2 grow">
 
 			<input class="min-w-96" type="file" @change="onImageChange">

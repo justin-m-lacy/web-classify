@@ -22,7 +22,7 @@ const testToxic = async () => {
 </script>
 <template>
 	<div class="flex w-full min-w-96">
-		<div v-if="!toxicityStore.loaded">Loading model...</div>
+		<div v-if="!toxicityStore.loaded">Loading Toxicity model...</div>
 		<div v-else class="flex w-full space-x-2 grow">
 
 			<input class="min-w-96" type="text" v-model="inputRef">
