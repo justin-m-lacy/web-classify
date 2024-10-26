@@ -60,18 +60,25 @@ const classify = async () => {
 }
 </script>
 <template>
-	<div class="flex w-full min-w-96">
+	<div class="flex min-w-96">
 		<div v-if="!imageStore.loaded">Loading Image model...</div>
-		<div v-else class="flex w-full space-x-2 grow">
+		<div v-else class="flex space-x-4 space-y-2">
 
-			<input class="min-w-96" type="file" @change="onImageChange">
-			<img v-show="loadedImage" ref="previewRef" :src="loadedImage ?? '#'">
-			<button type="button"
-					@click="classify"
-					:disabled="busy || !loadedImage">Test</button>
+			<div class="flex flex-col space-y-2 items-start">
+				<input class="min-w-96" type="file" @change="onImageChange">
+				<button type="button"
+						class="bg-gray-300 rounded-xs px-2 disabled:opacity-60"
+						@click="classify"
+						:disabled="busy || !loadedImage">Test</button>
+
+				<div v-show="lastResult">
+					<span>Prediction:</span><span>{{ lastResult }}</span>
+				</div>
+			</div>
+
+			<img v-show="loadedImage" ref="previewRef" class="max-w-80" :src="loadedImage ?? '#'">
+
 		</div>
-		<div v-if="lastResult">
-			{{ lastResult }}
-		</div>
+
 	</div>
 </template>

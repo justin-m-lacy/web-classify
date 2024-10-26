@@ -25,8 +25,9 @@ const testToxic = async () => {
 		<div v-if="!toxicityStore.loaded">Loading Toxicity model...</div>
 		<div v-else class="flex w-full space-x-2 grow">
 
-			<input class="min-w-96" type="text" v-model="inputRef">
+			<input class="min-w-96" type="text" v-model="inputRef" placeholder="Enter test text">
 			<button type="button"
+					class="bg-gray-300 rounded-xs px-2 disabled:opacity-60"
 					@click="testToxic"
 					:disabled="busy || !inputRef">Test</button>
 		</div>

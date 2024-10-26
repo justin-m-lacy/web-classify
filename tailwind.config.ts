@@ -1,5 +1,4 @@
 import Forms from '@tailwindcss/forms';
-import plugin from 'tailwindcss/plugin';
 
 /** @type {import("@types/tailwindcss/tailwind-config").TailwindConfig } */
 export default {
@@ -161,24 +160,6 @@ export default {
     },
   },
   plugins: [
-
-    plugin(({ addComponents, theme }) => {
-
-      addComponents({
-
-        '.btn': {
-          'min-width': '8em',
-          'max-width': '16em',
-          'min-height': '0.5em',
-          'padding': `1px ${theme('padding.1')}`,
-          '&:disabled': {
-            opacity: '0.5',
-
-          }
-        }
-      })
-
-    }),
 
     Forms,
 
